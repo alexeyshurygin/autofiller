@@ -1,5 +1,6 @@
 const firstName = "";
 const lastName = "";
+const fullName = "";
 const email = "";
 const phone = "";
 const city = "";
@@ -10,41 +11,54 @@ const githubProfile = "";
 const legalCountry = "";
 const currentCity = "";
 const currentEmployer = "";
+const skills = "";
+const pronouns = "";
 
 function setValue(selector, value, text = null) {
     let elements = document.querySelectorAll(selector);
     let elem = null;
-    if (text != null) {
-        for (const e of elements) {
-            if (e.innerText.trim().includes(text)) {
-                elem = e;
-                break;
-            }
+    for (const e of elements) {
+        if (text === null || e.innerText.includes(text)) {
+            elem = e;
+            break;
         }
     }
     if (elem != null) {
-        let input = elem.parentElement.querySelector("input[type='text']");
-        if (input === null) {
-            input = elem.parentElement.querySelector("input[type='text']");
+        if (elem instanceof HTMLInputElement) {
+            elem.value = value;
+            return;
         }
-        if (input != null) {
-            input.value = value;
+        while (elem.parentElement != null) {
+            elem = elem.parentElement;
+            let input = elem.querySelector("input[type='text']");
+            if (input != null) {
+                input.value = value;
+                return;
+            }
         }
     }
 }
 
-document.getElementById("last_name").value = lastName;
-document.getElementById("first_name").value = firstName;
-document.getElementById("phone").value = phone;
-document.getElementById("email").value = email;
+setValue("input#last_name", lastName);
+setValue("input#first_name", firstName);
+setValue("input[name='name'], input[name='full_name'], input[name='fullName']", fullName);
+setValue("div", fullName, "Full name");
+setValue("input#phone", phone);
+setValue("input#email", email);
 setValue("label", city, "Location (City)");
 setValue("label", linkedin, "LinkedIn Profile");
+setValue("div", linkedin, "LinkedIn");
+setValue("input[name='linkedinUrl']", linkedin);
 setValue("label", personalSite, "Website");
-setValue("label", github, "GitHub Profile");
+setValue("input[name='blogUrl']", personalSite);
+setValue("label", github, "GitHub");
+setValue("div", github, "GitHub");
+setValue("div", github, "Portfolio");
+setValue("input[name='githubUrl']", github);
 setValue("label", githubProfile, "What is your GitHub handle?");
 setValue("label", legalCountry, "In which of the following countries are you legally authorized to work in?");
 setValue("label", "Yes", "Will you now or in the future require visa sponsorship for employment?");
-setValue("label", currentCity, "Please provide your current location:");
+setValue("label", currentCity, "current location");
 setValue("label", "Yes", "Have you ever worked remotely before?");
 setValue("label", "Loneliness - use Slack, get a hobby, have a walk, meet friends IRL. Control - status meetings, PRs and Jira board will" +
     " compensate" +
@@ -58,3 +72,5 @@ setValue("label", currentEmployer, "Who is your current employer? N/A if not app
 setValue("label", "Male", "Gender (Select one)");
 setValue("label", "Yes", "GitHub has my consent to collect, store, and process my data for the purpose of considering me for employment, and" +
     " for up to 365 days thereafter.");
+setValue("div", skills, "Skills");
+setValue("div", pronouns, "pronouns");
