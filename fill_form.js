@@ -10,6 +10,7 @@ const github = "";
 const githubProfile = "";
 const legalCountry = "";
 const currentCity = "";
+const currentTitle = "";
 const currentEmployer = "";
 const skills = "";
 const pronouns = "";
@@ -17,12 +18,11 @@ const pronouns = "";
 function setValue(selector, value, text = null) {
     let elements = document.querySelectorAll(selector);
     let elem = null;
-    for (const e of elements) {
-        if (text === null || e.innerText.includes(text)) {
+    for (const e of elements)
+        if (text === null || e.innerText != null && e.innerText.includes(text)) {
             elem = e;
             break;
         }
-    }
     if (elem != null) {
         if (elem instanceof HTMLInputElement) {
             elem.value = value;
@@ -30,8 +30,8 @@ function setValue(selector, value, text = null) {
         }
         while (elem.parentElement != null) {
             elem = elem.parentElement;
-            let input = elem.querySelector("input[type='text']");
-            if (input != null) {
+            let input = elem.querySelector("input[type='text'], input:not([type])");
+            if (input != null && input instanceof HTMLInputElement) {
                 input.value = value;
                 return;
             }
@@ -39,26 +39,24 @@ function setValue(selector, value, text = null) {
     }
 }
 
-setValue("input#last_name", lastName);
-setValue("input#first_name", firstName);
-setValue("input[name='name'], input[name='full_name'], input[name='fullName']", fullName);
+setValue("input#last_name, input[aria-label='Last Name']", lastName);
+setValue("input[name='name'], input[name='full_name'], input[name='fullName'], input[aria-label='Full Name']", fullName);
 setValue("div", fullName, "Full name");
 setValue("input#phone", phone);
 setValue("input#email", email);
 setValue("label", city, "Location (City)");
-setValue("label", linkedin, "LinkedIn Profile");
-setValue("div", linkedin, "LinkedIn");
+setValue("label, div", linkedin, "LinkedIn");
 setValue("input[name='linkedinUrl']", linkedin);
 setValue("label", personalSite, "Website");
 setValue("input[name='blogUrl']", personalSite);
-setValue("label", github, "GitHub");
-setValue("div", github, "GitHub");
-setValue("div", github, "Portfolio");
+setValue("label, div", github, "GitHub");
+setValue("label, div", github, "Portfolio");
 setValue("input[name='githubUrl']", github);
-setValue("label", githubProfile, "What is your GitHub handle?");
+setValue("label", githubProfile, "GitHub handle");
 setValue("label", legalCountry, "In which of the following countries are you legally authorized to work in?");
 setValue("label", "Yes", "Will you now or in the future require visa sponsorship for employment?");
 setValue("label", currentCity, "current location");
+setValue("label", currentCity, "located");
 setValue("label", "Yes", "Have you ever worked remotely before?");
 setValue("label", "Loneliness - use Slack, get a hobby, have a walk, meet friends IRL. Control - status meetings, PRs and Jira board will" +
     " compensate" +
@@ -68,9 +66,13 @@ setValue("label", "Loneliness - use Slack, get a hobby, have a walk, meet friend
     " remotely, and how would you address them?");
 setValue("label", "On your website", "How did you hear about this job?");
 setValue("label", "Yes", "Please acknowledge that you've read the GitHub Candidate Privacy Policy.");
-setValue("label", currentEmployer, "Who is your current employer? N/A if not applicable");
+setValue("label", currentEmployer, "current employer");
+setValue("h3", currentTitle, "title");
 setValue("label", "Male", "Gender (Select one)");
 setValue("label", "Yes", "GitHub has my consent to collect, store, and process my data for the purpose of considering me for employment, and" +
     " for up to 365 days thereafter.");
 setValue("div", skills, "Skills");
 setValue("div", pronouns, "pronouns");
+//Let it be the last
+setValue("h3", firstName, "first name");
+setValue("input#first_name, input[aria-label='First Name']", firstName);
