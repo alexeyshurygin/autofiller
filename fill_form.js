@@ -19,7 +19,7 @@ function setValue(selector, value, text = null) {
     let elements = document.querySelectorAll(selector);
     let elem = null;
     for (const e of elements)
-        if (text === null || e.innerText != null && e.innerText.includes(text)) {
+        if (text === null || e.innerText != null && e.innerText.trim() === text.trim()) {
             elem = e;
             break;
         }
@@ -45,7 +45,7 @@ setValue("div", fullName, "Full name");
 setValue("input#phone", phone);
 setValue("input#email", email);
 setValue("label", city, "Location (City)");
-setValue("label, div", linkedin, "LinkedIn");
+setValue("label, div", linkedin, "LinkedIn Profile");
 setValue("input[name='linkedinUrl']", linkedin);
 setValue("label", personalSite, "Website");
 setValue("input[name='blogUrl']", personalSite);
